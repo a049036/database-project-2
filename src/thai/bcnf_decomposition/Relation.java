@@ -1,4 +1,4 @@
-package yang.tai.bcnf_decomposition;
+package thai.bcnf_decomposition;
 
 public class Relation {
 	private boolean [] A;
