@@ -3,19 +3,33 @@ package thai.bcnf_decomposition;
 public class Relation {
 	private boolean [] A;
 	
+	public Relation () {
+		this.A = new boolean [26];
+		for (int i=0;i<25;i++) {
+			this.A[i] = false;
+		}
+	}
+	
 	public Relation (String s) {
+		this.A = new boolean [26];
+		for (int i=0;i<25;i++) {
+			this.A[i] = false;
+		}
+		
 		String [] r = s.split("\\s+");
 		for (int i=0; i<r.length; i++) {
 			if (r[i]=="") continue;
-			int index = (int) r[i].charAt(0);
-			this.A[index] = true;
+			for (int j=0; j<r[i].length();j++) {
+				int index = (int) r[i].charAt(j) - (int) 'A';
+				this.A[index] = true;
+			}
 		}
 	}
 	
 	public String toString() {
 		String s ="";
-		for (int i=0; i<A.length; i++) {
-			if (this.A[i] == true) s = s + " " + (char) i;
+		for (int i=0; i<this.A.length; i++) {
+			if (this.A[i] == true) s = s + " " + (char) (i + (int) 'A');
 		}
 		return s;
 	}
@@ -25,7 +39,7 @@ public class Relation {
 	}
 	
 	public boolean contains (char c) {
-		return this.A[(int) c];
+		return this.A[(int) c - (int) 'A'];
 	}
 	
 	public boolean subset (Relation r2) {

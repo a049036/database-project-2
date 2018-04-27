@@ -20,8 +20,13 @@ public class Fd {
 		return this.RHS;
 	}
 	
+	public Fd() {
+		this.LHS = null;
+		this.RHS = null;
+	}
+	
 	public Fd (String s) {
-		s = s.replaceAll("\\s+", "");
+		//s = s.replaceAll("\\s+", "");
 		String [] fd = s.split("->");
 		this.LHS = new Relation(fd[0]);
 		this.RHS = new Relation(fd[1]);
