@@ -13,6 +13,24 @@ public class FdList {
 			tmp = tmp.next;
 			tmp.f.normalize();
 		}
+		this.rmDuplicate();
+	}
+	
+	private void rmDuplicate () {
+		FdList p1, p2;
+		p1 = this;
+		while(!p1.isNull()) {
+			p2 = p1.next;
+			while (!p2.isNull()) {
+				p2 = p2.next;
+				if (p1.next.f.equals(p2.f)) {
+					p1.next = p1.next.next;
+				}
+			}
+			p1 = p1.next;
+		}
+		
+		
 	}
 	
 	public FdList projectOn (Relation r) {
@@ -90,8 +108,8 @@ public class FdList {
 	}
 	
 	public FdList(String s) {
-		//this.f = null;
-		//this.next = null;
+		this.f = null;
+		this.next = null;
 		FdList tmp = this;
 		FdList tmp2;
 		Fd current;
@@ -102,21 +120,33 @@ public class FdList {
 		for (int i=0;i<fd.length;i++) {
 			if (!fd[i].matches("\\s*")) {
 				boolean flag = true;
-				tmp2 = this;
 				current = new Fd(fd[i]);
-				while (!tmp2.isNull()) {
-					tmp2 = tmp2.next;
-					if (current.LHS.subset(tmp2.f.LHS) || current.LHS.subset(tmp2.f.RHS)) {
-						tmp2.f.RHS = tmp2.f.RHS.union(current.RHS);
+				while (flag) { // Try to merge new FD into existing ones.
+					tmp2 = this;
+					flag = false;
+					while (!tmp2.isNull()) {
+						tmp2 = tmp2.next;
+						if (current.LHS.subset(tmp2.f.LHS) || current.LHS.subset(tmp2.f.RHS)) {
+							Relation tmp3 = tmp2.f.RHS.union(current.RHS);
+							if (!tmp2.f.RHS.equals(tmp3) && tmp2.f.RHS.subset(tmp3)) {
+								tmp2.f.RHS = tmp2.f.RHS.union(current.RHS);
+								flag = true;
+							}
+						}
+						if (tmp2.f.LHS.subset(current.LHS) || tmp2.f.LHS.subset(current.RHS)) {
+							Relation tmp3 = current.RHS.union(tmp2.f.RHS);
+							if (!current.RHS.equals(tmp3) && current.RHS.subset(tmp3)) {
+								current.RHS = tmp3;
+								flag = true;
+							}
+						}
 					}
 				}
 				
 				// cannot add to existing FDs. Create new one.
-				if (flag) {
 					tmp.next = new FdList();
 					tmp = tmp.next;
 					tmp.f = current;
-				}
 			}
 		}
 		// Normalize the FDs.

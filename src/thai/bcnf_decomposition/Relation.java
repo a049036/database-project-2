@@ -5,14 +5,14 @@ public class Relation {
 	
 	public Relation () {
 		this.A = new boolean [26];
-		for (int i=0;i<25;i++) {
+		for (int i=0;i<26;i++) {
 			this.A[i] = false;
 		}
 	}
 	
 	public Relation (String s) {
 		this.A = new boolean [26];
-		for (int i=0;i<25;i++) {
+		for (int i=0;i<26;i++) {
 			this.A[i] = false;
 		}
 		
@@ -35,7 +35,10 @@ public class Relation {
 	}
 	
 	public boolean equals (Relation r2) {
-		return this.A.equals(r2.A);
+		for (int i=0;i<26;i++) {
+			if (this.A[i] != r2.A[i]) return false;
+		}
+		return true;
 	}
 	
 	public boolean contains (char c) {
@@ -44,7 +47,7 @@ public class Relation {
 	
 	public boolean subset (Relation r2) {
 		boolean flag = true;
-		for (int i=0; i<this.A.length; i++) {
+		for (int i=0; i<this.A.length && flag; i++) {
 			if (this.A[i]==true && r2.A[i]==false) flag = false;
 		}
 		return flag;

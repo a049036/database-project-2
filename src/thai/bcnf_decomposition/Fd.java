@@ -26,6 +26,12 @@ public class Fd {
 		return this.RHS;
 	}
 	
+	public boolean equals (Fd fd2) {
+		this.normalize();
+		fd2.normalize();
+		return (this.LHS.equals(fd2.getLHS()) && this.RHS.equals(fd2.getRHS()));
+	}
+	
 	public Fd() {
 		this.LHS = null;
 		this.RHS = null;
