@@ -1,5 +1,5 @@
 # Readme 
-For more information, visit the [Github page](https://github.com/a049036/database-project-2).
+For more information, visit the [Github page](https://github.com/realTaiYang/database-project-2).
 ## Package Information
 This package is an implementation of BCNF decomposition. There are seven classes in the package.
 
